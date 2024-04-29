@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>랜덤 점심 메뉴 선택기</title>
+    <script>
+        let menus = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']; // 기본 메뉴 배열
+
+        function chooseLunch() {
+            if (menus.length === 0) {
+                document.getElementById("lunchMenu").innerText = "메뉴를 추가해주세요.";
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * menus.length);
+            const chosenMenu = menus[randomIndex];
+            document.getElementById("lunchMenu").innerText = "오늘의 점심은 " + chosenMenu + " 입니다!";
+        }
+
+        function addMenu() {
+            const newMenu = document.getElementById("menuInput").value.toUpperCase(); // 대문자로 통일
+            if (newMenu !== "" && !menus.includes(newMenu)) {
+                menus.push(newMenu);
+                document.getElementById("menuInput").value = ""; // 입력 필드 초기화
+                updateMenuList();
+            }
+        }
+
+        function removeMenu() {
+            const menuToRemove = document.getElementById("menuInput").value.toUpperCase();
+            menus = menus.filter(menu => menu !== menuToRemove);
+            document.getElementById("menuInput").value = ""; // 입력 필드 초기화
+            updateMenuList();
+        }
+
+        function updateMenuList() {
+            const menuList = document.getElementById("menuList");
+            menuList.innerHTML = ""; // 리스트 초기화
+            menus.forEach(menu => {
+                const li = document.createElement("li");
+                li.textContent = menu;
+                menuList.appendChild(li);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateMenuList(); // 초기 메뉴 목록 표시
+        });
+    </script>
+</head>
+<body>
+    <h1>점심 메뉴 선택기</h1>
+    <button onclick="chooseLunch()">오늘의 점심은?</button>
+    <p id="lunchMenu"></p>
+
+    <h2>메뉴 관리</h2>
+    <input type="text" id="menuInput" placeholder="메뉴 입력" />
+    <button onclick="addMenu()">메뉴 추가</button>
+    <button onclick="removeMenu()">메뉴 삭제</button>
+
+    <h3>현재 메뉴 목록</h3>
+    <ul id="menuList"></ul>
+</body>
+</html>
